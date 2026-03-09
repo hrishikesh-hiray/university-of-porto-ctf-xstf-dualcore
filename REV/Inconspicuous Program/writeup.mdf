@@ -1,0 +1,114 @@
+# Inconspicuous Program - Detailed Writeup
+
+## Challenge Info
+- Name: `Inconspicuous Program`
+- Author: `Binks`
+- Flag format: `upCTF{...}` (case-sensitive)
+- Artifact: `inconspicuous` (no file extension)
+
+## 1) Initial Triage
+The file had no extension and looked suspicious, so the first step was to identify its format.
+
+### File properties observed
+- Size: `13304` bytes
+- Not a directory, regular file
+
+### Magic bytes
+The first bytes were:
+- `7F 45 4C 46 ...`
+
+This is the standard ELF signature (`\x7fELF`), so the file is a Linux executable.
+
+## 2) Static String Recon
+A string scan showed interesting symbols and hints:
+- `Enter password:`
+- `main`
+- `encrypted_bin`
+- `encrypted_bin_len`
+- Imports like `mmap`, `mprotect`, `fgets`, `strlen`
+
+This strongly suggested runtime code decryption + execution (self-modifying or unpacking behavior).
+
+## 3) ELF Symbol + Section Analysis
+Using `pyelftools`, key symbols were recovered:
+- `main` at `0x4004c6`
+- `encrypted_bin` at `0x403060` (size `0x134` = `308` bytes)
+- `encrypted_bin_len` at `0x403194`
+
+The payload blob lives in `.data`, then is copied/decrypted to an executable region.
+
+## 4) Main Function Behavior (Disassembly Summary)
+Disassembly of `main` showed the exact flow:
+
+1. Prompt user: `Enter password:`
+2. Read input with `fgets`
+3. Trim newline using `strcspn`
+4. Allocate RW memory via `mmap`
+5. Compute one-byte XOR key:
+   - `key = strlen(input) + 0x10`
+6. For each byte in `encrypted_bin`:
+   - `decoded[i] = encrypted_bin[i] XOR key`
+7. Mark decoded buffer executable with `mprotect(..., PROT_READ|PROT_EXEC)`
+8. Cast decoded buffer to function pointer and call it with input string
+
+So the user input length directly controls payload decryption.
+
+## 5) Recovering the Correct XOR Key
+Because key = `len(input) + 0x10`, we brute-checked likely keys and looked for valid x86-64 prologues in decoded output.
+
+Only key `0x1c` produced a clean function start:
+- `push rbp`
+- `mov rbp, rsp`
+
+Therefore:
+- `len(input) + 0x10 = 0x1c`
+- `len(input) = 0x0c = 12`
+
+## 6) Decoded Payload Logic
+After XOR with `0x1c`, disassembly revealed byte-by-byte password checks:
+
+Expected chars (in order):
+- `s`
+- `3`
+- `l`
+- `f`
+- `_`
+- `m`
+- `0`
+- `d`
+- `_`
+- `b`
+- `1`
+- `n`
+- then null terminator
+
+So required password is:
+- `s3lf_m0d_b1n`
+
+On success, the decoded function performs a `write` syscall and prints an embedded string.
+
+## 7) Extracted Success String (Flag)
+Decoding tail bytes of payload produced:
+
+`upCTF{I_w4s_!a110wed_t0_write_m4lw4r3}`
+
+A newline follows it in the binary.
+
+## 8) Final Flag
+`upCTF{I_w4s_!a110wed_t0_write_m4lw4r3}`
+
+## 9) Why This Works
+The program hides checker logic by encrypting machine code in `.data` and decrypting it at runtime using a key derived from password length. A wrong-length password uses the wrong XOR key, yielding invalid/incorrect logic. Correct length decrypts valid code, which then enforces exact password bytes and prints the flag.
+
+## 10) Minimal Repro Commands (Reference)
+Environment-specific, but conceptually:
+
+1. Identify type/magic bytes
+2. Extract strings
+3. Parse ELF symbols/sections (`pyelftools`)
+4. Disassemble `main` (`capstone`)
+5. XOR-decode `encrypted_bin`
+6. Disassemble decoded function and recover constants
+7. Read embedded success string
+
+This challenge is a clean example of runtime-decrypted verifier code in native ELF.

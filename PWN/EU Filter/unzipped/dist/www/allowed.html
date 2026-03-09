@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EUFilter — Scanning...</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6fb;
+      color: #222;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .header {
+      background: #003399;
+      color: white;
+      padding: 14px 32px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .header h1 { font-size: 1.2em; font-weight: bold; }
+    .header p { font-size: 0.75em; opacity: 0.8; }
+    .main {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 16px;
+    }
+    .card {
+      background: white;
+      border: 1px solid #dde3f0;
+      border-radius: 6px;
+      max-width: 480px;
+      width: 100%;
+      padding: 32px;
+      box-shadow: 0 2px 8px rgba(0,0,64,0.07);
+    }
+    .card h2 { font-size: 1.05em; color: #003399; margin-bottom: 6px; }
+    .destination {
+      font-size: 0.82em;
+      color: #555;
+      margin-bottom: 24px;
+    }
+    .destination strong { color: #003399; }
+    .checks { list-style: none; margin-bottom: 24px; }
+    .checks li {
+      font-size: 0.82em;
+      padding: 6px 0;
+      border-bottom: 1px solid #f0f2f8;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #555;
+    }
+    .checks li:last-child { border-bottom: none; }
+    .check-icon { font-size: 1em; width: 18px; text-align: center; }
+    .progress-wrap {
+      background: #eef2ff;
+      border-radius: 4px;
+      height: 8px;
+      overflow: hidden;
+      margin-bottom: 10px;
+    }
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: #003399;
+      border-radius: 4px;
+      transition: width 0.15s ease;
+    }
+    .progress-label {
+      font-size: 0.75em;
+      color: #888;
+      text-align: right;
+    }
+    .status-msg {
+      font-size: 0.8em;
+      color: #003399;
+      margin-top: 16px;
+      min-height: 1.4em;
+    }
+    .footer {
+      background: #e8ecf5;
+      border-top: 1px solid #dde3f0;
+      padding: 10px 32px;
+      font-size: 0.7em;
+      color: #777;
+      display: flex;
+      justify-content: space-between;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <span style="font-size:1.4em">🇪🇺</span>
+    <div>
+      <h1>EUFilter — Safe Browsing Gateway</h1>
+      <p>Operated under EU Regulation 1337/420 — Extremely Serious Internet Concerns Act</p>
+    </div>
+  </div>
+  <div class="main">
+    <div class="card">
+      <h2>Scanning destination...</h2>
+      <p class="destination">Checking <strong id="url-display"></strong> against EU content databases. Please wait.</p>
+      <ul class="checks" id="checks">
+        <li><span class="check-icon" id="c1">⏳</span> Vibes check database</li>
+        <li><span class="check-icon" id="c2">⏳</span> Terrorist & extremism registry</li>
+        <li><span class="check-icon" id="c3">⏳</span> Big Yikes Watchlist</li>
+        <li><span class="check-icon" id="c4">⏳</span> Did You Even Ask Index</li>
+        <li><span class="check-icon" id="c5">⏳</span> Too Old For This Classification</li>
+      </ul>
+      <div class="progress-wrap">
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
+      <div class="progress-label"><span id="progress-pct">0</span>%</div>
+      <div class="status-msg" id="status-msg">Initialising secure scan...</div>
+    </div>
+  </div>
+  <div class="footer">
+    <span>EUFilter v1.3.3.7 — EU Bureau of Vibes and Digital Oversight</span>
+    <span>Regulation (EU) 1337/420 &nbsp;|&nbsp; EUBVDO-GW-004</span>
+  </div>
+  <script>
+    var url = new URLSearchParams(window.location.search).get('url') || '';
+    document.getElementById('url-display').textContent = url;
+
+    var steps = [
+      { id: 'c1', msg: 'Querying child safety database...', pct: 20 },
+      { id: 'c2', msg: 'Checking extremism registry...',   pct: 40 },
+      { id: 'c3', msg: 'Verifying disinformation watchlist...', pct: 60 },
+      { id: 'c4', msg: 'Scanning copyright index...',      pct: 80 },
+      { id: 'c5', msg: 'Classifying age restrictions...',  pct: 95 },
+    ];
+
+    var delays = [600, 1100, 900, 800, 700];
+    var elapsed = 0;
+
+    steps.forEach(function(step, i) {
+      elapsed += delays[i];
+      setTimeout(function() {
+        document.getElementById(step.id).textContent = '✅';
+        document.getElementById('progress-bar').style.width = step.pct + '%';
+        document.getElementById('progress-pct').textContent = step.pct;
+        document.getElementById('status-msg').textContent = step.msg;
+      }, elapsed);
+    });
+
+    setTimeout(function() {
+      document.getElementById('progress-bar').style.width = '100%';
+      document.getElementById('progress-pct').textContent = '100';
+      document.getElementById('status-msg').textContent = 'No issues found. Redirecting...';
+      setTimeout(function() {
+        window.location.href = 'https://' + url;
+      }, 600);
+    }, elapsed + 600);
+  </script>
+</body>
+</html>

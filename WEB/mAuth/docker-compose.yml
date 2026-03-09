@@ -1,0 +1,61 @@
+version: '3.8'
+
+networks:
+  public:
+  internal:
+    driver: bridge
+
+volumes:
+  cert-store:
+    driver: local
+  shared-logs:
+    driver: local
+
+services:
+  tls-proxy:
+    platform: linux/amd64
+    build: ./proxy
+    container_name: tls-proxy
+    networks:
+      - public
+      - internal
+    ports:
+      - "9000:443"
+    volumes:
+      - cert-store:/app/certs
+      - ./proxy/server.pem:/app/server.pem
+      - ./proxy/ca.pem:/app/ca.pem
+    environment:
+      - PUBLIC_APP_HOST=public-app
+      - PUBLIC_APP_PORT=5000
+      - ADMIN_APP_HOST=admin-app
+      - ADMIN_APP_PORT=5001
+      - CERT_STORE_PATH=/app/certs
+    depends_on:
+      - public-app
+      - admin-app
+
+  public-app:
+    platform: linux/amd64
+    build: ./public-app
+    container_name: public-app
+    volumes:
+      - shared-logs:/tmp
+    networks:
+      - internal
+    ports: []
+    environment:
+      - FLAG="upCTF{...}"
+
+  admin-app:
+    platform: linux/amd64
+    build: ./admin-app
+    container_name: admin-app
+    volumes:
+      - cert-store:/app/certs
+      - shared-logs:/tmp
+    networks:
+      - internal
+    ports: []
+    environment:
+      - UPLOAD_BASE=/app/uploads

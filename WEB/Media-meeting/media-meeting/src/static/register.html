@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Media Meeting - Register</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: { colors: { "primary": "#3713ec", "background-dark": "#131022", "surface-dark": "#1c192b" }, fontFamily: { "display": ["Plus Jakarta Sans", "sans-serif"] } },
+            },
+        }
+    </script>
+    <style>
+        .glass-card { background: rgba(28, 25, 43, 0.75); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.08); }
+        .bg-grid-pattern { background-image: linear-gradient(rgba(55, 19, 236, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(55, 19, 236, 0.05) 1px, transparent 1px); background-size: 40px 40px; }
+    </style>
+</head>
+<body class="relative flex h-full min-h-screen w-full flex-col bg-background-light dark:bg-background-dark font-display overflow-x-hidden text-white">
+    <div class="fixed inset-0 z-0 bg-grid-pattern opacity-40 pointer-events-none"></div>
+
+    <header class="relative z-50 flex items-center justify-between px-6 py-3 border-b border-white/5 bg-background-dark/80 backdrop-blur-md sticky top-0">
+        <div class="flex items-center gap-4">
+            <div class="size-10 rounded-lg bg-primary flex items-center justify-center"><span class="material-symbols-outlined">casino</span></div>
+            <h2 class="font-bold hidden sm:block">Cross the road, get to the meeting</h2>
+        </div>
+        <div class="flex items-center gap-3">
+            <a class="text-sm font-medium hover:underline decoration-primary px-2" href="index.html">Log In</a>
+        </div>
+    </header>
+
+    <main class="relative z-10 flex-grow flex items-center justify-center py-12 px-4">
+        <div class="w-full max-w-6xl flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
+            <div class="hidden lg:flex flex-col flex-1 gap-6 max-w-lg">
+                <h1 class="text-5xl font-black leading-[1.1]">Cross or wait.<br/><span class="text-primary">Don't be late for the meeting.</span></h1>
+                <p class="text-lg text-gray-400">You're always 1 gamble away from victory.</p>
+            </div>
+
+            <div class="flex-1 w-full max-w-[480px]">
+                <div class="glass-card rounded-2xl p-8 sm:p-10 w-full relative overflow-hidden">
+                    <div class="flex flex-col gap-2 mb-8">
+                        <h2 class="text-3xl font-black">Create Account</h2>
+                    </div>
+                    
+                    <form action="/api/register" method="POST" class="flex flex-col gap-5">
+                        <div class="flex flex-col gap-2">
+                            <label class="text-gray-300 text-sm font-semibold">Username</label>
+                            <div class="relative group/input">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"><span class="material-symbols-outlined text-gray-500">person</span></div>
+                                <input name="username" class="w-full h-12 bg-background-dark/50 border border-white/10 rounded-lg pl-10 text-white focus:border-primary transition-all text-sm" placeholder="Choose a username" type="text" required/>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col gap-2">
+                            <label class="text-gray-300 text-sm font-semibold">Password</label>
+                            <div class="relative group/input">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"><span class="material-symbols-outlined text-gray-500">lock</span></div>
+                                <input name="password" class="w-full h-12 bg-background-dark/50 border border-white/10 rounded-lg pl-10 text-white focus:border-primary transition-all text-sm" placeholder="Minimum 8 characters" type="password" required/>
+                            </div>
+                        </div>
+
+                        <button class="mt-4 w-full flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 text-white font-bold py-3.5 rounded-lg shadow-lg transition-all" type="submit">
+                            <span>Register Now</span>
+                            <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+                        </button>
+                    </form>
+
+                    <div class="mt-8 text-center">
+                        <p class="text-sm text-gray-400">Already have an account? <a class="text-primary font-semibold hover:underline" href="index.html">Log in</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

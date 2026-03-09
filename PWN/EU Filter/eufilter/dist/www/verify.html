@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EUFilter — Age Verification Required</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6fb;
+      color: #222;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .header {
+      background: #003399;
+      color: white;
+      padding: 14px 32px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .header h1 { font-size: 1.2em; font-weight: bold; letter-spacing: 1px; }
+    .header p { font-size: 0.75em; opacity: 0.8; }
+    .main {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 16px;
+    }
+    .card {
+      background: white;
+      border: 1px solid #dde3f0;
+      border-radius: 6px;
+      max-width: 520px;
+      width: 100%;
+      padding: 32px;
+      box-shadow: 0 2px 8px rgba(0,0,64,0.07);
+    }
+    .blocked-banner {
+      background: #fff3cd;
+      border: 1px solid #ffc107;
+      border-radius: 4px;
+      padding: 12px 16px;
+      font-size: 0.82em;
+      color: #7a5000;
+      margin-bottom: 24px;
+    }
+    .blocked-banner strong { display: block; margin-bottom: 4px; font-size: 1.05em; }
+    .card h2 { font-size: 1.05em; color: #003399; margin-bottom: 8px; }
+    .card p { font-size: 0.83em; color: #555; margin-bottom: 20px; line-height: 1.6; }
+    .legal-box {
+      background: #eef2ff;
+      border-left: 4px solid #003399;
+      padding: 10px 14px;
+      font-size: 0.78em;
+      color: #333;
+      margin-bottom: 24px;
+      line-height: 1.7;
+    }
+    label { display: block; font-size: 0.8em; font-weight: bold; color: #444; margin-bottom: 6px; }
+    .sublabel { font-size: 0.75em; color: #888; font-weight: normal; margin-bottom: 6px; display: block; }
+    input[type=text] {
+      width: 100%;
+      border: 1px solid #c0c8e0;
+      border-radius: 4px;
+      padding: 9px 12px;
+      font-size: 0.9em;
+      margin-bottom: 20px;
+      outline: none;
+    }
+    input[type=text]:focus { border-color: #003399; }
+    input[type=file] {
+      display: block;
+      font-size: 0.85em;
+      margin-bottom: 24px;
+      color: #444;
+    }
+    input[type=submit] {
+      background: #003399;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      padding: 10px 24px;
+      font-size: 0.9em;
+      cursor: pointer;
+      width: 100%;
+    }
+    input[type=submit]:hover { background: #0044cc; }
+    .footer {
+      background: #e8ecf5;
+      border-top: 1px solid #dde3f0;
+      padding: 10px 32px;
+      font-size: 0.7em;
+      color: #777;
+      display: flex;
+      justify-content: space-between;
+    }
+  </style>
+  <script>
+    /* Populate the form action with the url param from this page's query string */
+    window.addEventListener('DOMContentLoaded', function() {
+      var url = new URLSearchParams(window.location.search).get('url') || '';
+      document.getElementById('verify-form').action = '/cgi-bin/eufilter.cgi?url=' + encodeURIComponent(url);
+      var banner = document.getElementById('blocked-url');
+      if (url) banner.textContent = url;
+    });
+  </script>
+</head>
+<body>
+  <div class="header">
+    <span style="font-size:1.4em">🇪🇺</span>
+    <div>
+      <h1>EUFilter — Age Verification Required</h1>
+      <p>Operated under EU Regulation 1337/420 — Extremely Serious Internet Concerns Act</p>
+    </div>
+  </div>
+  <div class="main">
+    <div class="card">
+      <div class="blocked-banner">
+        <strong>⛔ Access Restricted</strong>
+        The site <strong><span id="blocked-url">this site</span></strong> has been classified as age-restricted under EU Regulation 1337/420. You must verify your age before access can be granted.
+      </div>
+      <h2>Identity Verification</h2>
+      <p>Please provide your full legal name and a photograph of a valid government-issued ID (passport, national ID card, or driving licence). Your data will be processed in accordance with GDPR Article 42(0)(lol).</p>
+      <div class="legal-box">
+        📋 <strong>Legal basis:</strong> This processing is required by EU Regulation 1337/420 Art. 14(3). Refusal to comply will result in permanent restriction of access to age-restricted content on this connection. Data is retained for 90 days and may be shared with national authorities upon lawful request.
+      </div>
+      <form id="verify-form" method="POST" action="/cgi-bin/eufilter.cgi" enctype="multipart/form-data">
+        <label for="name">Full Legal Name</label>
+        <input type="text" id="name" name="name" placeholder="As it appears on your ID" autofocus>
+        <label for="id_photo">Government-Issued ID Photo</label>
+        <span class="sublabel">Accepted formats: JPEG, PNG, PDF. Max size 1 MB.</span>
+        <span class="sublabel" id="file-error" style="color:#c00;display:none;">No file selected or file exceeds 1 MB.</span>
+        <input type="file" id="id_photo" name="id_photo" accept="image/*,.pdf">
+        <input type="submit" value="Submit for Verification →" onclick="
+          var f = document.getElementById('id_photo').files[0];
+          if (!f || f.size > 1048576) {
+            document.getElementById('file-error').style.display = 'block';
+            return false;
+          }
+        ">
+      </form>
+    </div>
+  </div>
+  <div class="footer">
+    <span>EUFilter v1.3.3.7 — EU Bureau of Vibes and Digital Oversight</span>
+    <span>Regulation (EU) 1337/420 &nbsp;|&nbsp; EUBVDO-GW-004</span>
+  </div>
+</body>
+</html>

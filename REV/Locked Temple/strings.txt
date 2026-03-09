@@ -1,0 +1,71 @@
+/lib64/ld-linux-x86-64.so.2
+__gmon_start__
+_ITM_deregisterTMCloneTable
+_ITM_registerTMCloneTable
+SDL_Init
+SDL_CreateRenderer
+SDL_SetRenderDrawColor
+SDL_Delay
+SDL_RenderDrawPoint
+SDL_RenderDrawRect
+SDL_PollEvent
+SDL_RenderPresent
+SDL_Quit
+SDL_RenderClear
+SDL_RenderDrawLine
+SDL_CreateWindow
+SDL_RenderFillRect
+__cxa_finalize
+__libc_start_main
+libSDL2-2.0.so.0
+libc.so.6
+GLIBC_2.34
+GLIBC_2.2.5
+AVAUA
+t$ H
+D$ =
+[]A\A]A^A_
+PTE1
+u+UH
+ AUE
+A\A]A^A_
+ []A\
+([]A\A]
+D$ A
+D$$H
+t$0H
+D$0A
+D$4H
+t$@H
+D$@A
+D$DH
+P[]A\
+Locked Temple
+:*3$"
+GCC: (Ubuntu 11.4.0-1ubuntu1~22.04.2) 11.4.0
+.shstrtab
+.interp
+.note.gnu.property
+.note.gnu.build-id
+.note.ABI-tag
+.gnu.hash
+.dynsym
+.dynstr
+.gnu.version
+.gnu.version_r
+.rela.dyn
+.rela.plt
+.init
+.plt.got
+.plt.sec
+.text
+.fini
+.rodata
+.eh_frame_hdr
+.eh_frame
+.init_array
+.fini_array
+.dynamic
+.data
+.bss
+.comment

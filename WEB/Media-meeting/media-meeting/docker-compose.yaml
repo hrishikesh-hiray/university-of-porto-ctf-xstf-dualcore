@@ -1,0 +1,11 @@
+services:
+  app:
+    build: ./src
+    ports:
+      - "6969:6969"
+    environment:
+      - JWT_SECRET=NUNCA_FALTES_A_UMA_REUNIAO_DE_M3DIA
+      - GAME_SEED=WHAT_HAPPENS_IN_M3DIA_STAYS_IN_M3DIA
+      - FLAG=upCTF{esta_flag_é_tão_real_como_as_historias_das_reuniões_de_m3dia}
+    restart: always
+    

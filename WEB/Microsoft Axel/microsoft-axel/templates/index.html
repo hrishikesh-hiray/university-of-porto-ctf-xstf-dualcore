@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GhostDrop | File Downloads</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Space+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  </head>
+  <body>
+    <div class="noise"></div>
+    <main class="shell">
+      <header class="hero reveal">
+        <p class="kicker">secure transfer node</p>
+        <h1>GhostDrop</h1>
+        <p class="subtitle">Drop any file anonymously with our service</p>
+        <div class="stats">{{ file_count }} file{{ '' if file_count == 1 else 's' }} ready</div>
+      </header>
+
+      <section class="panel reveal delay-1">
+        <div class="panel-head">
+          <h2>Fetch any file</h2>
+          <span class="dot" aria-hidden="true"></span>
+        </div>
+        <form class="fetch-form" action="{{ url_for('fetch') }}" method="post">
+          <input
+            type="text"
+            name="url"
+            value="{{ url_value }}"
+            placeholder="https://example.com/file.zip"
+          />
+          <button type="submit">Run Axel</button>
+        </form>
+        {% if result %}
+        <p class="status {{ 'status-ok' if result.ok else 'status-err' }}">{{ result.message }}</p>
+        {% endif %}
+      </section>
+
+      <section class="panel reveal delay-2">
+        <div class="panel-head">
+          <h2>Available Downloads</h2>
+          <span class="dot" aria-hidden="true"></span>
+        </div>
+
+        {% if files %}
+        <ul class="file-list">
+          {% for file in files %}
+          <li class="file-card reveal delay-2">
+            <div class="file-meta">
+              <p class="file-name">{{ file.name }}</p>
+              <p class="file-size">{{ file.size }}</p>
+            </div>
+            <a class="download-btn" href="{{ url_for('download', filename=file.name) }}">Download</a>
+          </li>
+          {% endfor %}
+        </ul>
+        {% else %}
+        <div class="empty">
+          <p>No files found in <code>/app/files</code>.</p>
+          <p>Drop files there and refresh.</p>
+        </div>
+        {% endif %}
+      </section>
+    </main>
+  </body>
+</html>

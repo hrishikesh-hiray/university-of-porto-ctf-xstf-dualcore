@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Media Meeting - Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: { "primary": "#3713ec", "background-light": "#f6f6f8", "background-dark": "#131022" },
+                    fontFamily: { "display": ["Plus Jakarta Sans", "sans-serif"] },
+                },
+            },
+        }
+    </script>
+    <style>
+        .glass-panel {
+            background: rgba(19, 16, 34, 0.75);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+        .input-glow:focus-within { box-shadow: 0 0 15px rgba(55, 19, 236, 0.3); border-color: #3713ec; }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display antialiased text-white overflow-x-hidden">
+<div class="relative min-h-screen w-full flex flex-col">
+    <div class="absolute inset-0 z-0 w-full h-full">
+        <div class="absolute inset-0 bg-background-dark/80 z-10 mix-blend-multiply"></div>
+        <div class="w-full h-full bg-cover bg-center opacity-60" style="background-image: url('/static/images/zinada.jpeg');"></div>
+    </div>
+
+    <main class="relative z-20 flex flex-1 items-center justify-center px-4 py-12">
+        <div class="w-full max-w-[440px] glass-panel rounded-2xl p-8 sm:p-10">
+            <div class="text-center mb-8">
+                <h1 class="text-3xl font-bold mb-2 tracking-tight">Welcome Back</h1>
+                <p class="text-gray-400 text-sm">Log in to continue your winning streak</p>
+            </div>
+            
+            <form action="/api/login" method="POST" class="flex flex-col gap-5">
+                <div class="space-y-2">
+                    <label class="text-xs font-semibold uppercase tracking-wider text-gray-400 ml-1">Username</label>
+                    <div class="group input-glow flex items-center w-full rounded-xl bg-[#0f0e17] border border-white/10 transition-all duration-300">
+                        <div class="pl-4 text-gray-500"><span class="material-symbols-outlined text-[20px]">person</span></div>
+                        <input class="w-full bg-transparent border-none text-white placeholder-gray-600 focus:ring-0 text-sm h-12 px-3" name="username" placeholder="Enter your username" type="text" required/>
+                    </div>
+                </div>
+                
+                <div class="space-y-2">
+                    <label class="text-xs font-semibold uppercase tracking-wider text-gray-400 ml-1">Password</label>
+                    <div class="group input-glow flex items-center w-full rounded-xl bg-[#0f0e17] border border-white/10 transition-all duration-300">
+                        <div class="pl-4 text-gray-500"><span class="material-symbols-outlined text-[20px]">lock</span></div>
+                        <input class="w-full bg-transparent border-none text-white placeholder-gray-600 focus:ring-0 text-sm h-12 px-3" name="password" placeholder="Enter your password" type="password" required/>
+                    </div>
+                </div>
+
+                <button type="submit" class="mt-4 flex w-full items-center justify-center rounded-xl bg-primary h-12 text-sm font-bold text-white shadow-lg shadow-primary/30 hover:bg-primary/90 hover:-translate-y-0.5 transition-all duration-300">
+                    Log In
+                </button>
+            </form>
+
+            <div class="mt-8 text-center">
+                <p class="text-sm text-gray-400">
+                    Don't have an account? 
+                    <a class="font-bold text-primary hover:text-primary/80 ml-1 transition-colors" href="register.html">Register Now</a>
+                </p>
+                <script>
+                    const urlParams = new URLSearchParams(window.location.search);
+                    if(urlParams.get('error')) {
+                        document.write('<p style="color: #ef4444; margin-top: 10px; font-size: 0.9rem;">Invalid Credentials</p>');
+                    }
+                </script>
+            </div>
+        </div>
+    </main>
+</div>
+</body>
+</html>

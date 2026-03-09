@@ -1,0 +1,2 @@
+Welcome to the Flask Download Platform.
+Drop files into /app/files and refresh.

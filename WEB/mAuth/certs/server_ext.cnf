@@ -1,0 +1,2 @@
+[v3_req]
+subjectAltName = DNS:challenge.com, DNS:admin.challenge.com

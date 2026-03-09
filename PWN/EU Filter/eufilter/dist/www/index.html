@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EUFilter — Safe Browsing Gateway</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6fb;
+      color: #222;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .header {
+      background: #003399;
+      color: white;
+      padding: 14px 32px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .header img { width: 36px; }
+    .header h1 { font-size: 1.2em; font-weight: bold; letter-spacing: 1px; }
+    .header p { font-size: 0.75em; opacity: 0.8; }
+    .stars { font-size: 1.4em; letter-spacing: -2px; }
+    .main {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 16px;
+    }
+    .card {
+      background: white;
+      border: 1px solid #dde3f0;
+      border-radius: 6px;
+      max-width: 500px;
+      width: 100%;
+      padding: 32px;
+      box-shadow: 0 2px 8px rgba(0,0,64,0.07);
+    }
+    .card h2 { font-size: 1.1em; color: #003399; margin-bottom: 8px; }
+    .card p { font-size: 0.85em; color: #555; margin-bottom: 24px; line-height: 1.6; }
+    .info-box {
+      background: #eef2ff;
+      border-left: 4px solid #003399;
+      padding: 10px 14px;
+      font-size: 0.8em;
+      color: #333;
+      margin-bottom: 24px;
+      line-height: 1.6;
+    }
+    label { display: block; font-size: 0.8em; font-weight: bold; color: #444; margin-bottom: 6px; }
+    input[type=text] {
+      width: 100%;
+      border: 1px solid #c0c8e0;
+      border-radius: 4px;
+      padding: 9px 12px;
+      font-size: 0.9em;
+      margin-bottom: 16px;
+      outline: none;
+    }
+    input[type=text]:focus { border-color: #003399; }
+    input[type=submit] {
+      background: #003399;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      padding: 10px 24px;
+      font-size: 0.9em;
+      cursor: pointer;
+      width: 100%;
+    }
+    input[type=submit]:hover { background: #0044cc; }
+    .footer {
+      background: #e8ecf5;
+      border-top: 1px solid #dde3f0;
+      padding: 10px 32px;
+      font-size: 0.7em;
+      color: #777;
+      display: flex;
+      justify-content: space-between;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <span class="stars">🇪🇺</span>
+    <div>
+      <h1>EUFilter — Mandatory Safe Browsing Gateway</h1>
+      <p>Operated under EU Regulation 1337/420 — Extremely Serious Internet Concerns Act</p>
+    </div>
+  </div>
+  <div class="main">
+    <div class="card">
+      <h2>Enter the URL you wish to visit</h2>
+      <p>All outbound web traffic is subject to vibes screening in accordance with EU law. Sites that are too fun require age verification. This is for your safety. Probably.</p>
+      <div class="info-box">
+        ℹ️ This gateway is operated by your Internet Service Provider on behalf of the EU Bureau of Vibes and Digital Oversight (EUBVDO). Compliance is mandatory.
+      </div>
+      <form method="GET" action="/cgi-bin/eufilter.cgi">
+        <label for="url">Destination URL</label>
+        <input type="text" id="url" name="url" placeholder="e.g. discord.com" autofocus>
+        <input type="submit" value="Continue →">
+      </form>
+    </div>
+  </div>
+  <div class="footer">
+    <span>EUFilter v1.3.3.7 — EU Bureau of Vibes and Digital Oversight</span>
+    <span>Regulation (EU) 1337/420 &nbsp;|&nbsp; EUBVDO-GW-004</span>
+  </div>
+</body>
+</html>
