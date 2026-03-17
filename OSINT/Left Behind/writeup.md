@@ -145,5 +145,6 @@ upCTF{John_Stephen}
 
 ---
 
-*Writeup by: [Your Handle]*  
+Writeup by:Hrishikesh
+
 *Challenge from: upCTF*
